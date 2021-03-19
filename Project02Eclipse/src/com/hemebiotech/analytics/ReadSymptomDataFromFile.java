@@ -31,7 +31,7 @@ class ReadSymptomDataFromFile implements ISymptomReader {
 				}
 				System.out.println("The data were successfully processed");
 				} catch (Exception e) {
-				System.out.println("Invalid file");
+				System.out.println("The file was not found");
 				}
 
 			return mapSymptoms; // return the map defined in parameter
@@ -39,5 +39,3 @@ class ReadSymptomDataFromFile implements ISymptomReader {
 			}
 
 	}
-
-}
