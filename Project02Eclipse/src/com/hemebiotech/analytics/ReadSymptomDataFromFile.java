@@ -5,43 +5,39 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
-/**
- * Simple brute force implementation
- *
- */
-public class ReadSymptomDataFromFile implements ISymptomReader {
 
-	private String filepath;
+class ReadSymptomDataFromFile implements ISymptomReader {
+
+	private SortedMap<String, Integer> mapSymptoms = new TreeMap<>();
 	
-	/**
-	 * 
-	 * @param filepath a full or partial path to file with symptom strings in it, one per line
-	 */
-	public ReadSymptomDataFromFile (String filepath) {
-		this.filepath = filepath;
-	}
-	
-	@Override
-	public List<String> GetSymptoms() {
-		ArrayList<String> result = new ArrayList<String>();
-		
-		if (filepath != null) {
-			try {
-				BufferedReader reader = new BufferedReader (new FileReader(filepath));
-				String line = reader.readLine();
-				
-				while (line != null) {
-					result.add(line);
-					line = reader.readLine();
+
+	public SortedMap<String, Integer> ReadSymptomDataFromFile() {
+		try {
+
+			BufferedReader reader = new BufferedReader (new FileReader("Project02Eclipse/symptoms.txt"));
+			String line = reader.readLine();
+			while (line!= null) {
+				if (mapSymptoms.containsKey(line)) {
+					System.out.println("The following desease already exists:" + line); // Indicates desease increment
+					mapSymptoms.replace(line, mapSymptoms.get(line) + 1);
+				} else {
+					System.out.println("Add the following desease:" + line); // add a new desease type to the list
+					mapSymptoms.put(line, 1);
 				}
-				reader.close();
-			} catch (IOException e) {
-				e.printStackTrace();
+				line = reader.readLine();
+				}
+				System.out.println("The data were successfully processed");
+				} catch (Exception e) {
+				System.out.println("Invalid file");
+				}
+
+			return mapSymptoms; // return the map defined in parameter
+
 			}
-		}
-		
-		return result;
+
 	}
 
 }
